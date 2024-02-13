@@ -1,0 +1,28 @@
+CC = gcc
+CFLAGS = -Wall -Wextra
+LDFLAGS =
+
+SERVER_SRC = server_common.c server_file_operations.c server_main.c
+CLIENT_SRC = client_common.c client_file_operations.c client_main.c
+
+SERVER_OBJ = $(SERVER_SRC:.c=.o)
+CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
+
+SERVER_TARGET = server
+CLIENT_TARGET = client
+
+.PHONY: all clean
+
+all: $(SERVER_TARGET) $(CLIENT_TARGET)
+
+$(SERVER_TARGET): $(SERVER_OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(SERVER_OBJ) -o $(SERVER_TARGET)
+
+$(CLIENT_TARGET): $(CLIENT_OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(CLIENT_OBJ) -o $(CLIENT_TARGET)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(SERVER_OBJ) $(CLIENT_OBJ) $(SERVER_TARGET) $(CLIENT_TARGET)
